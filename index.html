@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hello, world</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap">
+<style>
+  /* Layout: black stage, gothic greeting centred, blackwork-style stylised flowers, bells and vines with dotwork shading creeping in from two corners */
+  :root {
+    --void: #0a0708;
+    --ink: #ece3e0;
+    --blood: #e0475c;
+    --blush: #e86a7c;
+    --blackletter: "Pirata One", "Old English Text MT", Georgia, serif;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--void);
+    color: var(--ink);
+    margin: 0;
+    overflow-x: hidden;
+  }
+  #bloom {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .stage {
+    position: relative;
+    min-height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    padding-block: 64px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .stage::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(214, 72, 92, 0.22), transparent 70%);
+    pointer-events: none;
+  }
+  main {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    text-align: center;
+  }
+  .smiley {
+    width: clamp(130px, 32vw, 190px);
+    max-width: 100%;
+    height: auto;
+    transform-origin: 50% 80%;
+    animation: wobble 3.2s ease-in-out infinite;
+    overflow: visible;
+  }
+  .smiley .line { fill: none; stroke: var(--ink); stroke-linecap: round; stroke-linejoin: round; }
+  .smiley .solid { fill: var(--void); stroke: var(--ink); stroke-linejoin: round; }
+  .smiley .ink { fill: var(--ink); }
+  .smiley .hole { fill: var(--void); }
+  .smiley .stipple circle { fill: var(--ink); opacity: 0.7; }
+  .smiley .blush circle { fill: var(--blush); }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-6deg); }
+    50% { transform: rotate(6deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { .smiley { animation: none; } }
+  h1 {
+    font-family: var(--blackletter);
+    font-weight: 400;
+    font-size: clamp(4rem, 19vw, 10rem);
+    line-height: 0.9;
+    margin: 0;
+    color: var(--ink);
+    text-shadow: 0 0 32px rgba(224, 71, 92, 0.3);
+    text-wrap: balance;
+  }
+  h1 .name { color: var(--blood); }
+</style>
+</head>
+<body>
+
+<canvas id="bloom" aria-hidden="true"></canvas>
+<div class="stage">
+  <main>
+    <h1>Hello, <span class="name">world</span></h1>
+    <svg class="smiley" viewBox="-20 -20 140 140" role="img" aria-label="Smiley face tattoo">
+      <defs>
+        <path id="spark" d="M0 -9 Q1.4 -1.4 9 0 Q1.4 1.4 0 9 Q-1.4 1.4 -9 0 Q-1.4 -1.4 0 -9 Z"/>
+        <path id="petal" d="M0 0 Q7 -6.5 17 0 Q7 6.5 0 0 Z"/>
+        <path id="leaf" d="M0 0 Q10 -7 22 0 Q10 7 0 0 Z"/>
+      </defs>
+
+      <!-- sparkles -->
+      <use href="#spark" class="ink" transform="translate(96 4)"/>
+      <use href="#spark" class="ink" transform="translate(106 28) scale(0.55)"/>
+      <use href="#spark" class="ink" transform="translate(-10 78) scale(0.65)"/>
+
+      <!-- face: bold outline, dotwork shading on the lower right -->
+      <circle class="solid" cx="50" cy="50" r="40" stroke-width="6"/>
+      <g class="stipple" id="stipple"></g>
+      <path class="line" d="M60 17 Q69 19 75 25" stroke-width="2.5"/>
+      <path class="line" d="M79 31 Q80.5 33.5 81.5 36.5" stroke-width="2.5"/>
+
+      <!-- cheeks in dotwork red -->
+      <g class="blush" id="blush"></g>
+
+      <!-- eyes with flash highlights -->
+      <ellipse class="ink" cx="36" cy="41" rx="5" ry="7.5"/>
+      <ellipse class="ink" cx="64" cy="41" rx="5" ry="7.5"/>
+      <circle class="hole" cx="37.6" cy="37.6" r="1.8"/>
+      <circle class="hole" cx="65.6" cy="37.6" r="1.8"/>
+
+      <!-- smile with dimple ticks -->
+      <path class="line" d="M30 60 Q50 80 70 60" stroke-width="5"/>
+      <path class="line" d="M27 63.5 L33 56.5" stroke-width="3"/>
+      <path class="line" d="M67 56.5 L73 63.5" stroke-width="3"/>
+
+      <!-- flower tucked over the top-left edge -->
+      <g transform="translate(20 17)">
+        <g transform="rotate(200)">
+          <use href="#leaf" class="solid" stroke-width="2.5"/>
+          <path class="line" d="M3 0 L18 0" stroke-width="1.2"/>
+        </g>
+        <g transform="rotate(255)">
+          <use href="#leaf" class="solid" stroke-width="2.5" transform="scale(0.8)"/>
+          <path class="line" d="M3 0 L14 0" stroke-width="1.2"/>
+        </g>
+        <use href="#petal" class="solid" stroke-width="2.5" transform="rotate(-90)"/>
+        <use href="#petal" class="solid" stroke-width="2.5" transform="rotate(-18)"/>
+        <use href="#petal" class="solid" stroke-width="2.5" transform="rotate(54)"/>
+        <use href="#petal" class="solid" stroke-width="2.5" transform="rotate(126)"/>
+        <use href="#petal" class="solid" stroke-width="2.5" transform="rotate(198)"/>
+        <circle class="solid" r="4" stroke-width="2.5"/>
+        <circle class="ink" r="1.5"/>
+      </g>
+    </svg>
+    <script>
+      (function () {
+        const NS = 'http://www.w3.org/2000/svg';
+        let s = 2024;
+        const r = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+        const add = (g, x, y, rad) => {
+          const c = document.createElementNS(NS, 'circle');
+          c.setAttribute('cx', x.toFixed(2)); c.setAttribute('cy', y.toFixed(2)); c.setAttribute('r', rad.toFixed(2));
+          g.appendChild(c);
+        };
+        // crescent of dots, densest against the outline
+        const st = document.getElementById('stipple');
+        for (let i = 0; i < 2600 && st.childNodes.length < 260; i++) {
+          const x = 10 + r() * 80, y = 10 + r() * 80;
+          const d = Math.hypot(x - 50, y - 50);
+          if (d > 36) continue;
+          const inner = Math.hypot(x - 43, y - 43);
+          if (inner < 30) continue;
+          if (r() > (inner - 30) / 13) continue;
+          add(st, x, y, 0.55 + r() * 0.5);
+        }
+        // blush: round dot clusters on each cheek
+        const bl = document.getElementById('blush');
+        [[25, 55], [75, 55]].forEach(([cx, cy]) => {
+          for (let i = 0; i < 26; i++) {
+            const a = r() * Math.PI * 2, d = Math.sqrt(r()) * 6.5;
+            add(bl, cx + Math.cos(a) * d, cy + Math.sin(a) * d, 0.7 + r() * 0.5);
+          }
+        });
+      })();
+    </script>
+  </main>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('bloom');
+  const ctx = canvas.getContext('2d');
+
+  // Blackwork on a black page: solid black fills, pale ink linework, dotwork shading
+  const BLACK = '#0a0708';
+  const LINE = '#cdc3bf';
+  const DOT = 'rgba(205, 195, 191, 0.6)';
+
+  let seed = 1386;
+  const rand = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+  function ink(lw) {
+    ctx.lineWidth = lw; ctx.strokeStyle = LINE;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  }
+  function dot(x, y, r) {
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = DOT; ctx.fill();
+  }
+
+  // a pointed lens-shaped petal along +x, dotwork packed towards its base
+  function petal(len, wid, lw, dots) {
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(len * 0.5, -wid, len, 0);
+    ctx.quadraticCurveTo(len * 0.5, wid, 0, 0);
+    ctx.fillStyle = BLACK; ctx.fill();
+    ink(lw); ctx.stroke();
+    // centre crease
+    ctx.beginPath(); ctx.moveTo(len * 0.12, 0); ctx.lineTo(len * 0.62, 0);
+    ink(lw * 0.5); ctx.stroke();
+    for (let i = 0; i < dots; i++) {
+      const t = 0.08 + Math.pow(rand(), 1.8) * 0.6;
+      const half = 2 * t * (1 - t) * wid * 0.8;
+      dot(len * t, (rand() * 2 - 1) * half, Math.max(0.6, lw * 0.32));
+    }
+  }
+
+  // stylised star flower: two rings of pointed petals and a dotted eye
+  function starFlower(x, y, r, rot) {
+    const lw = Math.max(1.4, r * 0.035);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    const n = 8;
+    for (let k = 0; k < n; k++) {
+      ctx.save(); ctx.rotate((k / n) * Math.PI * 2);
+      petal(r, r * 0.42, lw, Math.round(r * 0.9)); ctx.restore();
+    }
+    for (let k = 0; k < n; k++) {
+      ctx.save(); ctx.rotate(((k + 0.5) / n) * Math.PI * 2);
+      petal(r * 0.62, r * 0.3, lw, Math.round(r * 0.5)); ctx.restore();
+    }
+    // eye
+    ctx.beginPath(); ctx.arc(0, 0, r * 0.2, 0, Math.PI * 2);
+    ctx.fillStyle = BLACK; ctx.fill(); ink(lw); ctx.stroke();
+    for (let k = 0; k < 12; k++) {
+      const a = (k / 12) * Math.PI * 2;
+      dot(Math.cos(a) * r * 0.13, Math.sin(a) * r * 0.13, lw * 0.55);
+    }
+    ctx.beginPath(); ctx.arc(0, 0, r * 0.06, 0, Math.PI * 2);
+    ctx.fillStyle = LINE; ctx.fill();
+    ctx.restore();
+  }
+
+  // a hanging three-pointed bell flower, opening along +y
+  function bell(x, y, s, rot) {
+    const lw = Math.max(1.4, s * 0.04);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.moveTo(-s * 0.36, 0);
+    ctx.bezierCurveTo(-s * 0.56, s * 0.45, -s * 0.58, s * 0.8, -s * 0.46, s * 1.05);
+    ctx.lineTo(-s * 0.16, s * 0.84);
+    ctx.lineTo(0, s * 1.14);
+    ctx.lineTo(s * 0.16, s * 0.84);
+    ctx.lineTo(s * 0.46, s * 1.05);
+    ctx.bezierCurveTo(s * 0.58, s * 0.8, s * 0.56, s * 0.45, s * 0.36, 0);
+    ctx.quadraticCurveTo(0, -s * 0.1, -s * 0.36, 0);
+    ctx.closePath();
+    ctx.fillStyle = BLACK; ctx.fill(); ink(lw); ctx.stroke();
+    // petal seams
+    ctx.beginPath();
+    ctx.moveTo(-s * 0.12, s * 0.05); ctx.quadraticCurveTo(-s * 0.2, s * 0.5, -s * 0.16, s * 0.84);
+    ctx.moveTo(s * 0.12, s * 0.05); ctx.quadraticCurveTo(s * 0.2, s * 0.5, s * 0.16, s * 0.84);
+    ink(lw * 0.6); ctx.stroke();
+    // dotwork shading on the shoulders
+    for (let i = 0; i < s * 1.4; i++) {
+      const t = Math.pow(rand(), 1.6) * 0.55;
+      const half = s * (0.36 + t * 0.3) * 0.85;
+      dot((rand() * 2 - 1) * half, s * (0.05 + t), Math.max(0.6, lw * 0.3));
+    }
+    // stamen
+    ctx.beginPath(); ctx.moveTo(0, s * 0.9); ctx.lineTo(0, s * 1.38); ink(lw * 0.6); ctx.stroke();
+    ctx.beginPath(); ctx.arc(0, s * 1.42, lw * 1.3, 0, Math.PI * 2); ctx.fillStyle = LINE; ctx.fill();
+    // cap
+    ctx.beginPath(); ctx.ellipse(0, -s * 0.02, s * 0.18, s * 0.08, 0, 0, Math.PI * 2);
+    ctx.fillStyle = BLACK; ctx.fill(); ink(lw); ctx.stroke();
+    ctx.restore();
+  }
+
+  // small five-petal blossom
+  function blossom(x, y, r, rot) {
+    const lw = Math.max(1.2, r * 0.07);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    for (let k = 0; k < 5; k++) {
+      const a = (k / 5) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.ellipse(Math.cos(a) * r * 0.55, Math.sin(a) * r * 0.55, r * 0.5, r * 0.3, a, 0, Math.PI * 2);
+      ctx.fillStyle = BLACK; ctx.fill(); ink(lw); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(0, 0, r * 0.18, 0, Math.PI * 2);
+    ctx.fillStyle = LINE; ctx.fill();
+    ctx.restore();
+  }
+
+  function leaf(x, y, size, ang) {
+    const lw = Math.max(1.3, size * 0.03);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(size * 0.45, -size * 0.36, size, 0);
+    ctx.quadraticCurveTo(size * 0.45, size * 0.36, 0, 0);
+    ctx.fillStyle = BLACK; ctx.fill(); ink(lw); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(size * 0.5, -size * 0.03, size * 0.94, 0);
+    ink(lw * 0.6); ctx.stroke();
+    // side veins
+    for (let i = 1; i <= 4; i++) {
+      const t = i / 5;
+      ctx.beginPath();
+      ctx.moveTo(size * t, 0);
+      ctx.lineTo(size * (t + 0.09), -size * 0.36 * 2 * t * (1 - t) * 0.8);
+      ink(lw * 0.45); ctx.stroke();
+    }
+    // stipple on the lower half
+    for (let i = 0; i < size * 0.9; i++) {
+      const t = 0.05 + rand() * 0.9;
+      const half = size * 0.36 * 2 * t * (1 - t) * 0.85;
+      dot(size * t, rand() * half, Math.max(0.6, lw * 0.35));
+    }
+    ctx.restore();
+  }
+
+  function tendril(x, y, r, ang, dir) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
+    // spiral that starts at the stem and curls inward around (r, 0)
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    for (let t = 0; t <= Math.PI * 3.2; t += 0.12) {
+      const rr = r * (1 - t / (Math.PI * 3.6));
+      ctx.lineTo(r + rr * Math.cos(t + Math.PI), dir * rr * Math.sin(t + Math.PI));
+    }
+    ink(Math.max(1, r * 0.08)); ctx.stroke();
+    ctx.restore();
+  }
+
+  function smoothPath(points) {
+    ctx.beginPath();
+    ctx.moveTo(points[0][0], points[0][1]);
+    for (let i = 1; i < points.length - 1; i++) {
+      const mx = (points[i][0] + points[i + 1][0]) / 2;
+      const my = (points[i][1] + points[i + 1][1]) / 2;
+      ctx.quadraticCurveTo(points[i][0], points[i][1], mx, my);
+    }
+    const last = points[points.length - 1];
+    ctx.lineTo(last[0], last[1]);
+  }
+
+  function cluster(cx, cy, dirX, dirY, scale) {
+    const pts = [];
+    let x = cx, y = cy;
+    const steps = 7;
+    for (let i = 0; i <= steps; i++) {
+      pts.push([x, y]);
+      x += dirX * scale * (0.32 + rand() * 0.12);
+      y += dirY * scale * (0.18 + rand() * 0.14) + (rand() - 0.5) * scale * 0.18;
+    }
+    const stem = Math.max(1.6, scale * 0.006);
+    // double-line stem
+    smoothPath(pts); ink(stem * 3); ctx.stroke();
+    smoothPath(pts); ctx.strokeStyle = BLACK; ctx.lineWidth = stem * 1.4; ctx.stroke();
+
+    const angAt = (i) => Math.atan2(pts[i + 1][1] - pts[i][1], pts[i + 1][0] - pts[i][0]);
+    for (let i = 1; i < steps; i++) {
+      const side = i % 2 ? 1 : -1;
+      if (i % 2 === 0) leaf(pts[i][0], pts[i][1], scale * 0.15, angAt(i) - side * 0.9);
+      else tendril(pts[i][0], pts[i][1], scale * 0.04, angAt(i) + side * 1.2, side);
+    }
+
+    const big = scale * 0.2;
+    // bells hang from short stalks
+    [2, 6].forEach((i, j) => {
+      const sx = pts[i][0], sy = pts[i][1];
+      const ex = sx + dirX * big * 0.15, ey = sy + big * 0.55;
+      ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo(sx + dirX * big * 0.4, sy, ex, ey);
+      ink(stem * 1.4); ctx.stroke();
+      bell(ex, ey, big * (j ? 0.42 : 0.55), (rand() - 0.5) * 0.4);
+    });
+    starFlower(pts[3][0], pts[3][1], big, rand() * 6);
+    starFlower(pts[5][0], pts[5][1], big * 0.66, rand() * 6);
+    blossom(pts[1][0] + dirX * big * 0.3, pts[1][1] + dirY * big * 0.6, big * 0.22, rand() * 6);
+    blossom(pts[steps][0], pts[steps][1], big * 0.18, rand() * 6);
+    blossom(pts[4][0] - dirX * big * 0.2, pts[4][1] - dirY * big * 0.75, big * 0.16, rand() * 6);
+
+    // loose dotwork scattered around the cluster
+    for (let i = 0; i < 70; i++) {
+      const p = pts[1 + Math.floor(rand() * (steps - 1))];
+      const a = rand() * Math.PI * 2, d = big * (0.9 + rand() * 0.9);
+      dot(p[0] + Math.cos(a) * d, p[1] + Math.sin(a) * d, 0.6 + rand() * 1.4);
+    }
+  }
+
+  function draw() {
+    seed = 1386;
+    const dpr = window.devicePixelRatio || 1;
+    const w = window.innerWidth, h = window.innerHeight;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const base = Math.min(Math.max(w, h) * 0.55, 620);
+    const scale = w < 560 ? base * 0.7 : base;
+    cluster(-scale * 0.08, -scale * 0.05, 1, 1, scale);
+    cluster(w + scale * 0.08, h + scale * 0.05, -1, -1, scale);
+    // keep the middle clear so the greeting stays readable
+    const g = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.12, w / 2, h / 2, Math.max(w, h) * 0.6);
+    g.addColorStop(0, 'rgba(10, 7, 8, 0.85)');
+    g.addColorStop(0.5, 'rgba(10, 7, 8, 0.25)');
+    g.addColorStop(1, 'rgba(10, 7, 8, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  draw();
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 120); });
+})();
+</script>
+</body>
+</html>
